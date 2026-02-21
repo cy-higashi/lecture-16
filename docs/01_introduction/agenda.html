@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>インターン育成方針 | 面談資料</title>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+  :root {
+    --bg:        #e9e6de;
+    --surface:   #f5f3ee;
+    --surface2:  #eceae3;
+    --accent:    #6b7c52;   /* khaki green */
+    --accent2:   #4d6b3f;   /* deep forest */
+    --accent3:   #b8604a;   /* rust */
+    --accent4:   #8c7a60;   /* warm taupe */
+    --accent5:   #a08950;   /* golden khaki */
+    --text:      #26231e;
+    --text-muted:#7a7268;
+    --border:    #cdc9bf;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  /* ─── LUCIDE ICONS ─── */
+  .lucide {
+    display: inline-block;
+    vertical-align: middle;
+    flex-shrink: 0;
+  }
+  .icon-sm  .lucide { width: 14px; height: 14px; }
+  .icon-md  .lucide { width: 18px; height: 18px; }
+  .icon-lg  .lucide { width: 28px; height: 28px; }
+  .icon-xl  .lucide { width: 40px; height: 40px; }
+  .icon-xxl .lucide { width: 56px; height: 56px; }
+
+  /* ─── DECK ─── */
+  #deck { width: 100vw; height: 100vh; position: relative; }
+
+  .slide {
+    position: absolute; inset: 0;
+    display: none; flex-direction: column;
+    justify-content: center; align-items: center;
+    padding: 60px 80px;
+    opacity: 0; transition: opacity .35s ease;
+  }
+  .slide.active { display: flex; opacity: 1; }
+
+  /* ─── COMMON ─── */
+  .slide-label {
+    position: absolute; top: 28px; left: 48px;
+    font-size: 11px; letter-spacing: .15em; text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .slide-num {
+    position: absolute; bottom: 28px; right: 48px;
+    font-size: 12px; color: var(--text-muted);
+  }
+  .progress-bar {
+    position: fixed; bottom: 0; left: 0;
+    height: 3px; background: var(--accent);
+    transition: width .3s ease; z-index: 100;
+  }
+
+  h1 { font-size: clamp(2.2rem,4vw,3.6rem); font-weight: 700; line-height: 1.2; text-align: center; }
+  h2 { font-size: clamp(1.6rem,3vw,2.4rem); font-weight: 700; line-height: 1.3; margin-bottom: 36px; }
+  h3 { font-size: clamp(1.1rem,2vw,1.5rem); font-weight: 600; margin-bottom: 14px; }
+  p  { font-size: clamp(.9rem,1.4vw,1.1rem); line-height: 1.75; }
+  .sub { color: var(--text-muted); font-size: clamp(.8rem,1.2vw,1rem); margin-top: 12px; }
+
+  /* ─── ACCENT COLORS ─── */
+  .c-khaki  { color: var(--accent); }
+  .c-green  { color: var(--accent2); }
+  .c-rust   { color: var(--accent3); }
+  .c-taupe  { color: var(--accent4); }
+  .c-gold   { color: var(--accent5); }
+
+  /* ─── COVER ─── */
+  #s-cover {
+    background: radial-gradient(ellipse at 35% 45%, #d8e4cc 0%, #e9e6de 65%);
+  }
+  #s-cover h1 { font-size: clamp(2.8rem,5vw,4.4rem); }
+  #s-cover .cover-tag {
+    display: inline-block; margin-top: 22px;
+    padding: 6px 20px; border: 1px solid var(--accent);
+    border-radius: 20px; color: var(--accent); font-size: .85rem; letter-spacing: .1em;
+  }
+  #s-cover .cover-meta {
+    display: flex; gap: 32px; margin-top: 40px;
+    color: var(--text-muted); font-size: .92rem;
+  }
+  #s-cover .cover-meta span {
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  /* ─── AGENDA ─── */
+  .agenda-layout {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px; width: 100%; max-width: 1080px; align-items: start;
+  }
+  .agenda-section { display: flex; flex-direction: column; gap: 10px; }
+  .agenda-section-label {
+    font-size: .68rem; letter-spacing: .16em; text-transform: uppercase;
+    font-weight: 700; padding: 5px 14px; border-radius: 20px;
+    display: inline-flex; align-items: center; gap: 6px;
+    margin-bottom: 4px; width: fit-content;
+  }
+  .agenda-section-label.policy { background: rgba(107,124,82,.15); color: var(--accent); }
+  .agenda-section-label.column { background: rgba(140,122,96,.15); color: var(--accent4); }
+  .agenda-section-label.action { background: rgba(77,107,63,.15);  color: var(--accent2); }
+  .agenda-item {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 16px 20px;
+    display: flex; align-items: center; gap: 14px;
+    transition: border-color .2s, box-shadow .2s;
+  }
+  .agenda-item:hover       { border-color: var(--accent);  box-shadow: 0 2px 8px rgba(107,124,82,.12); }
+  .agenda-item.col-hover:hover { border-color: var(--accent4); box-shadow: 0 2px 8px rgba(140,122,96,.12); }
+  .agenda-item.act-hover:hover { border-color: var(--accent2); box-shadow: 0 2px 8px rgba(77,107,63,.12); }
+  .agenda-num {
+    font-size: 1.5rem; font-weight: 800;
+    opacity: .18; min-width: 32px;
+  }
+  .agenda-note {
+    padding: 10px 16px; border-radius: 8px; margin-top: 2px;
+  }
+  .agenda-note.col { background: rgba(140,122,96,.06); border: 1px dashed rgba(140,122,96,.3); }
+  .agenda-note.act { background: rgba(77,107,63,.06);  border: 1px dashed rgba(77,107,63,.3); }
+
+  /* ─── CARD ─── */
+  .card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 28px 32px;
+  }
+  .card-title {
+    font-size: .75rem; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--text-muted); margin-bottom: 16px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .tag-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+  .tag-pill {
+    padding: 4px 14px; border-radius: 20px; font-size: .82rem;
+    background: var(--surface2); border: 1px solid var(--border);
+  }
+  .tag-pill.k { border-color: var(--accent);  color: var(--accent); }
+  .tag-pill.g { border-color: var(--accent2); color: var(--accent2); }
+  .tag-pill.o { border-color: var(--accent5); color: var(--accent5); }
+
+  /* ─── PROFILE ─── */
+  .profile-layout {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 32px; width: 100%; max-width: 1000px;
+  }
+
+  /* ─── TIMELINE ─── */
+  .timeline {
+    display: flex; flex-direction: column;
+    width: 100%; max-width: 860px; position: relative;
+  }
+  .timeline::before {
+    content: ''; position: absolute;
+    left: 108px; top: 24px; bottom: 24px;
+    width: 2px; background: var(--border);
+  }
+  .tl-item { display: flex; gap: 24px; align-items: flex-start; padding: 16px 0; }
+  .tl-dot {
+    min-width: 110px; text-align: right;
+    font-size: .78rem; color: var(--text-muted); padding-top: 3px; font-weight: 600;
+  }
+  .tl-circle {
+    min-width: 16px; height: 16px; border-radius: 50%;
+    margin-top: 4px; border: 2px solid var(--accent);
+    background: var(--bg); z-index: 1;
+    box-shadow: 0 0 6px rgba(107,124,82,.5);
+  }
+  .tl-circle.g { border-color: var(--accent2); box-shadow: 0 0 6px rgba(77,107,63,.5); }
+  .tl-circle.o { border-color: var(--accent5); box-shadow: 0 0 6px rgba(160,137,80,.5); }
+  .tl-content h3 { font-size: 1.05rem; margin-bottom: 6px; }
+  .tl-content p  { font-size: .88rem; color: var(--text-muted); line-height: 1.65; }
+
+  /* ─── FORMULA ─── */
+  .formula-wrap {
+    display: flex; align-items: center; gap: 22px;
+    font-size: clamp(1.5rem,2.8vw,2.4rem); font-weight: 800; margin: 28px 0;
+  }
+  .formula-op { color: var(--text-muted); font-weight: 300; }
+  .formula-box {
+    padding: 16px 28px; border-radius: 12px; text-align: center; line-height: 1.3;
+  }
+  .formula-box.k { background: rgba(107,124,82,.1); border: 1px solid var(--accent);  color: var(--accent); }
+  .formula-box.g { background: rgba(77,107,63,.1);  border: 1px solid var(--accent2); color: var(--accent2); }
+  .formula-box.o { background: rgba(160,137,80,.1); border: 1px solid var(--accent5); color: var(--accent5); }
+  .formula-small { font-size: .65em; display: block; font-weight: 400; margin-top: 4px; }
+
+  /* ─── STEPS ─── */
+  .steps { display: flex; flex-direction: column; gap: 20px; width: 100%; max-width: 860px; }
+  .step-row {
+    display: flex; gap: 20px; align-items: flex-start;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 20px 24px;
+  }
+  .step-badge {
+    min-width: 64px; height: 64px; border-radius: 10px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    font-size: .6rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; gap: 2px;
+  }
+  .step-badge .num { font-size: 1.5rem; line-height: 1; }
+  .step-badge.k  { background: rgba(107,124,82,.12); color: var(--accent); }
+  .step-badge.g  { background: rgba(77,107,63,.12);  color: var(--accent2); }
+  .step-badge.tp { background: rgba(140,122,96,.12); color: var(--accent4); }
+  .step-badge.r  { background: rgba(184,96,74,.12);  color: var(--accent3); }
+  .step-body h3 { font-size: 1rem; margin-bottom: 6px; }
+  .step-body p  { font-size: .87rem; color: var(--text-muted); line-height: 1.65; }
+
+  /* ─── TWO-COL ─── */
+  .two-col {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 28px; width: 100%; max-width: 1000px;
+  }
+
+  /* ─── ADVICE ─── */
+  .advice-list { display: flex; flex-direction: column; gap: 20px; width: 100%; max-width: 860px; }
+  .advice-item {
+    display: flex; gap: 20px;
+    border-left: 3px solid var(--accent); padding: 16px 0 16px 24px;
+  }
+  .advice-item.g { border-color: var(--accent2); }
+  .advice-item.o { border-color: var(--accent5); }
+  .advice-num { font-size: 2rem; font-weight: 800; opacity: .15; min-width: 28px; }
+
+  /* ─── DEAL ─── */
+  .deal-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 20px; width: 100%; max-width: 960px;
+  }
+  .deal-card {
+    border-radius: 12px; padding: 26px 30px;
+  }
+  .deal-card.mentor { background: rgba(107,124,82,.08); border: 1px solid rgba(107,124,82,.4); }
+  .deal-card.intern { background: rgba(77,107,63,.08);  border: 1px solid rgba(77,107,63,.4); }
+  .deal-card h3 { margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  .deal-card ul { padding-left: 18px; font-size: .9rem; line-height: 1.8; color: var(--text-muted); }
+  .deal-card ul li { margin-bottom: 6px; }
+  .deal-timeline-bar {
+    grid-column: 1 / -1;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 18px 24px;
+    display: flex; align-items: center; gap: 20px;
+  }
+  .deal-timeline-bar .label { font-size: .78rem; color: var(--text-muted); min-width: 76px; }
+  .timeline-pills { display: flex; gap: 10px; flex-wrap: wrap; }
+  .tl-pill { padding: 5px 16px; border-radius: 20px; font-size: .82rem; font-weight: 600; }
+  .tl-pill.m1 { background: rgba(107,124,82,.12); color: var(--accent); }
+  .tl-pill.m3 { background: rgba(77,107,63,.12);  color: var(--accent2); }
+
+  /* ─── BLOCKQUOTE ─── */
+  blockquote {
+    border-left: 3px solid var(--accent);
+    padding: 18px 28px; margin: 18px 0;
+    background: var(--surface); border-radius: 0 10px 10px 0;
+    font-size: clamp(.95rem,1.5vw,1.2rem); line-height: 1.85;
+    max-width: 820px;
+  }
+  blockquote.r { border-color: var(--accent3); }
+  blockquote.g { border-color: var(--accent2); }
+  blockquote.o { border-color: var(--accent5); }
+
+  /* ─── HIGHLIGHT BOX ─── */
+  .hbox {
+    background: rgba(107,124,82,.07); border: 1px solid rgba(107,124,82,.25);
+    border-radius: 10px; padding: 18px 24px;
+    max-width: 860px; width: 100%; margin-top: 16px;
+  }
+  .hbox.o { background: rgba(160,137,80,.07); border-color: rgba(160,137,80,.25); }
+  .hbox.g { background: rgba(77,107,63,.07);  border-color: rgba(77,107,63,.25); }
+  .hbox.r { background: rgba(184,96,74,.07);  border-color: rgba(184,96,74,.25); }
+
+  /* ─── BULLET LIST ─── */
+  .blist { list-style: none; padding: 0; font-size: .92rem; line-height: 1.9; color: var(--text-muted); }
+  .blist li::before { content: '—  '; color: var(--accent); font-weight: 700; }
+  .blist li.g::before  { color: var(--accent2); }
+  .blist li.o::before  { color: var(--accent5); }
+  .blist li.r::before  { color: var(--accent3); }
+
+  /* ─── CLOSE ─── */
+  #s-close {
+    background: radial-gradient(ellipse at 70% 55%, #cfdfc5 0%, #e9e6de 65%);
+  }
+  .close-grid {
+    display: grid; grid-template-columns: repeat(3,1fr);
+    gap: 16px; width: 100%; max-width: 900px; margin-top: 28px;
+  }
+  .close-box {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 22px; text-align: center;
+  }
+  .close-icon {
+    color: var(--accent); margin-bottom: 12px;
+    display: flex; justify-content: center; align-items: center;
+  }
+
+  /* ─── NAV ─── */
+  #nav {
+    position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
+    display: flex; gap: 10px; z-index: 200;
+    background: rgba(245,243,238,.92); backdrop-filter: blur(10px);
+    border: 1px solid var(--border); border-radius: 32px; padding: 8px 18px;
+    box-shadow: 0 4px 16px rgba(38,35,30,.08);
+  }
+  .nav-btn {
+    background: none; border: none; cursor: pointer;
+    color: var(--text-muted); font-size: 1rem; padding: 6px 14px;
+    border-radius: 20px; transition: all .2s; font-family: inherit;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .nav-btn:hover { background: var(--surface2); color: var(--text); }
+  #nav-counter { color: var(--text-muted); font-size: .82rem; padding: 6px 8px; }
+
+  /* ─── HELP ─── */
+  #help {
+    position: fixed; top: 20px; right: 28px; z-index: 200;
+    font-size: .72rem; color: var(--text-muted);
+    background: rgba(245,243,238,.8); padding: 5px 14px;
+    border-radius: 20px; border: 1px solid var(--border);
+  }
+
+  hr.sep { border: none; border-top: 1px solid var(--border); width: 100%; margin: 18px 0; }
+
+  @media (max-width: 900px) {
+    .profile-layout, .two-col, .deal-grid, .agenda-layout, .close-grid { grid-template-columns: 1fr; }
+    .slide { padding: 40px 28px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="deck">
+
+  <!-- ══════════════ 0. COVER ══════════════ -->
+  <section class="slide" id="s-cover">
+    <div class="slide-label">Cyber Record — Intern Kickoff</div>
+    <span class="cover-tag">面談資料 · 2026.02</span>
+    <h1 style="margin-top:22px;">
+      インターン育成方針<br>
+      <span class="c-khaki">ファーストセッション</span>
+    </h1>
+    <p class="sub" style="font-size:1rem;">担当：東 &nbsp;｜&nbsp; 対象インターン生との初回方針確認</p>
+    <div class="cover-meta">
+      <span class="icon-sm">
+        <i data-lucide="map-pin"></i> サイバーレコード
+      </span>
+      <span class="icon-sm">
+        <i data-lucide="clock"></i> 約 90 分
+      </span>
+      <span class="icon-sm">
+        <i data-lucide="target"></i> 方針合意 ＋ ミッション設定
+      </span>
+    </div>
+    <div class="slide-num">— 0 —</div>
+  </section>
+
+  <!-- ══════════════ 1. AGENDA ══════════════ -->
+  <section class="slide" id="s-agenda">
+    <div class="slide-label">本日のアジェンダ</div>
+    <h2>Today's <span class="c-khaki">Agenda</span></h2>
+    <div class="agenda-layout">
+
+      <div class="agenda-section">
+        <span class="agenda-section-label policy icon-sm">
+          <i data-lucide="clipboard-list"></i> 育成方針
+        </span>
+        <div class="agenda-item">
+          <div class="agenda-num">01</div>
+          <div>
+            <h3 style="margin:0 0 3px; font-size:.95rem;">学生プロフィール確認</h3>
+            <p class="sub" style="margin:0; font-size:.78rem;">現状・強み・課題の整理</p>
+          </div>
+        </div>
+        <div class="agenda-item">
+          <div class="agenda-num">02</div>
+          <div>
+            <h3 style="margin:0 0 3px; font-size:.95rem;">キャリアビジョン</h3>
+            <p class="sub" style="margin:0; font-size:.78rem;">1年後〜10年後のゴール設計</p>
+          </div>
+        </div>
+        <div class="agenda-item">
+          <div class="agenda-num">03</div>
+          <div>
+            <h3 style="margin:0 0 3px; font-size:.95rem;">育成方針の提案</h3>
+            <p class="sub" style="margin:0; font-size:.78rem;">共通言語としてまず何かをつくる</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="agenda-section">
+        <span class="agenda-section-label column icon-sm">
+          <i data-lucide="lightbulb"></i> コラム
+        </span>
+        <div class="agenda-item col-hover">
+          <div class="agenda-num" style="color:var(--accent4);">04</div>
+          <div>
+            <h3 style="margin:0 0 3px; font-size:.95rem;">市場価値の方程式</h3>
+            <p class="sub" style="margin:0; font-size:.78rem;">専門スキル × ドメイン知識</p>
+          </div>
+        </div>
+        <div class="agenda-item col-hover">
+          <div class="agenda-num" style="color:var(--accent4);">05</div>
+          <div>
+            <h3 style="margin:0 0 3px; font-size:.95rem;">AI時代の戦い方</h3>
+            <p class="sub" style="margin:0; font-size:.78rem;">産業変革期に何をベットするか</p>
+          </div>
+        </div>
+        <div class="agenda-note col">
+          <p style="font-size:.74rem; color:var(--text-muted); line-height:1.6;">
+            時間・興味次第で深掘りする<br>補足テーマ。スキップ可。
+          </p>
+        </div>
+      </div>
+
+      <div class="agenda-section">
+        <span class="agenda-section-label action icon-sm">
+          <i data-lucide="target"></i> ネクストアクション
+        </span>
+        <div class="agenda-item act-hover">
+          <div class="agenda-num" style="color:var(--accent2);">06</div>
+          <div>
+            <h3 style="margin:0 0 3px; font-size:.95rem;">ミッション発表 ＋ 取引</h3>
+            <p class="sub" style="margin:0; font-size:.78rem;">3ヶ月で作るもの・約束の内容</p>
+          </div>
+        </div>
+        <div class="agenda-note act">
+          <p style="font-size:.74rem; color:var(--text-muted); line-height:1.6;">
+            面談のゴール。<br>ここで合意して今日終わる。
+          </p>
+        </div>
+      </div>
+
+    </div>
+    <div class="slide-num">— 1 —</div>
+  </section>
+
+  <!-- ══════════════ 2. PROFILE ══════════════ -->
+  <section class="slide" id="s-profile">
+    <div class="slide-label">01 学生プロフィール</div>
+    <h2>あなたは<span class="c-khaki">いま</span>、ここにいる</h2>
+    <div class="profile-layout">
+      <div class="card">
+        <div class="card-title icon-sm"><i data-lucide="user"></i> 現在の活動</div>
+        <ul class="blist">
+          <li>業務改善コンサル的ポジションで稼働中</li>
+          <li>社長に随行し、事業全体を把握する「鞄持ち」スタイル</li>
+          <li>起業支援・シェアオフィス・旅行会社・離島宿など多領域を横断</li>
+          <li>組織作り・新規事業開発・インターン設計を同時推進</li>
+          <li class="g" style="color:var(--text);">To Doリスト実践済み — 行動力は◎</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title icon-sm"><i data-lucide="compass"></i> 課題と目標（1年以内）</div>
+        <ul class="blist">
+          <li>属人化した業務を仕組みで回せる組織へ</li>
+          <li class="o">AIや機械化による業務改善</li>
+          <li class="o">時間のかかる資料作成・業務を短縮化</li>
+          <li class="g">人との出会い（ビジネスチャンス・営業）を最大化</li>
+        </ul>
+        <div class="tag-list" style="margin-top:18px;">
+          <span class="tag-pill k">組織設計</span>
+          <span class="tag-pill g">業務改善</span>
+          <span class="tag-pill o">AI活用</span>
+          <span class="tag-pill">新規事業</span>
+        </div>
+      </div>
+    </div>
+    <div class="slide-num">— 2 —</div>
+  </section>
+
+  <!-- ══════════════ 3. VISION ══════════════ -->
+  <section class="slide" id="s-vision">
+    <div class="slide-label">02 キャリアビジョン</div>
+    <h2>あなたの<span class="c-taupe">ゴール設計</span></h2>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot">卒業後〜1年</div>
+        <div class="tl-circle"></div>
+        <div class="tl-content">
+          <h3 class="c-khaki">卒業 → 就職（手段として）</h3>
+          <p>どこかの組織に属し、自分の価値を示しながら力をつける。<br>
+          重要なのは「どこに入るか」より「そこで何を作るか」。<br>
+          組織の資産を使って自分の事業を育てる動きを最速で始める。</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot">〜 5年後</div>
+        <div class="tl-circle g"></div>
+        <div class="tl-content">
+          <h3 class="c-green">起業 ＋ マネジメント × プレーヤー</h3>
+          <p>「時間で稼ぐ」から「仕組みで稼ぐ」へ転換。<br>
+          自分が動かなくても稼げる事業構造を設計・実装する。</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot">〜 10年後</div>
+        <div class="tl-circle o"></div>
+        <div class="tl-content">
+          <h3 class="c-gold">現時点では未定 — だからこそ今が勝負</h3>
+          <p>逆算すると、大学残り1年 ＋ 卒業後4年で<br>
+          相当な覚悟とスピード感が必要になる。</p>
+        </div>
+      </div>
+    </div>
+    <div class="hbox o" style="margin-top:20px;">
+      <p style="font-size:.9rem; color:var(--text-muted);">
+        <span class="c-gold" style="font-weight:700; display:inline-flex; align-items:center; gap:6px;">
+          <span class="icon-sm"><i data-lucide="zap"></i></span> 重要：
+        </span>
+        5年後の起業から逆算すると、今インターンで過ごす1年間の密度が全てのスタートになる。
+      </p>
+    </div>
+    <div class="slide-num">— 3 —</div>
+  </section>
+
+  <!-- ══════════════ 4. COMMON LANGUAGE ══════════════ -->
+  <section class="slide" id="s-why">
+    <div class="slide-label">03 育成方針</div>
+    <h2>共通言語として、<br><span class="c-khaki">まず何かをつくってみましょう</span></h2>
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title icon-sm"><i data-lucide="message-square"></i> なぜ「つくる体験」が必要か</div>
+        <ul class="blist">
+          <li>エンジニアになることが目的ではない</li>
+          <li>お互いが何を話しているか理解できる<strong>「共通言語」</strong>を持つことが目的</li>
+          <li>「つくれる」より「つくろうとしたことがある」が重要</li>
+          <li class="g">技術の限界・可能性を自分の言葉で語れるようになる</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title icon-sm"><i data-lucide="layers"></i> 何をつくるか</div>
+        <ul class="blist">
+          <li>今自分がやっている業務の中で「これ自動化できそう」を一つ選ぶ</li>
+          <li>完成度より<strong>「動く」を体験すること</strong>に意味がある</li>
+          <li class="g">一つ動かすと、次の打ち手の解像度が格段に上がる</li>
+          <li class="o">ここから先の学習スピードが根本的に変わる</li>
+        </ul>
+      </div>
+    </div>
+    <div class="hbox" style="margin-top:22px;">
+      <p style="font-size:.9rem; color:var(--text-muted);">
+        <span class="c-khaki" style="font-weight:700;">提案の本質：</span>
+        技術を習得させるのではなく、<strong style="color:var(--text);">「自分のアイデアをシステムとして表現できる状態」</strong>を作ること。<br>
+        それがあなたのキャリア全体の土台になる。
+      </p>
+    </div>
+    <div class="slide-num">— 4 —</div>
+  </section>
+
+  <!-- ══════════════ 5. 3 STEPS ══════════════ -->
+  <section class="slide" id="s-steps">
+    <div class="slide-label">03 育成方針 — アプローチの3レイヤー</div>
+    <h2>考え方の<span class="c-khaki">3レイヤー</span></h2>
+    <div class="steps">
+      <div class="step-row">
+        <div class="step-badge k"><span class="num">01</span>THINK</div>
+        <div class="step-body">
+          <h3 class="c-khaki">フローチャートの考え方を常に頭に入れておく</h3>
+          <p>業務・アイデア・課題を「フロー」として整理する習慣を持つ。<br>
+          どんなツールを使う前にも、まず<strong>構造として整理できているか</strong>が全ての起点になる。<br>
+          <span style="color:var(--text-muted);">粒度さえ間違えなければ正しいものは必ずできる。AIが伴走すれば即作れる。</span></p>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-badge g"><span class="num">02</span>BUILD</div>
+        <div class="step-body">
+          <h3 class="c-green">ノーコード・ローコードによる打ち手を柔軟に持つ</h3>
+          <p>GAS・Make・Notion APIなど、コードを最小限に動く仕組みを組む手段を持つ。<br>
+          <strong>課題と手段を素早くマッチングできる判断力</strong>が最大の武器になる。<br>
+          <span style="color:var(--text-muted);">「何を使えば最短で解決するか」を選べる人間になることがゴール。</span></p>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-badge tp"><span class="num">03</span>SCALE</div>
+        <div class="step-body">
+          <h3 class="c-taupe">AIエージェントを活用したよりテック的なアプローチ</h3>
+          <p>Dify・LLM API連携など、より高度な自動化・知識構造化に踏み込む。<br>
+          <strong>「使える人間」から「設計できる人間」</strong>へのステップ。<br>
+          <span style="color:var(--text-muted);">ここに至れば、エンジニアとも事業家とも対等に話せる土台が完成する。</span></p>
+        </div>
+      </div>
+    </div>
+    <div class="slide-num">— 5 —</div>
+  </section>
+
+  <!-- ══════════════ 6. MENTOR QUESTION ══════════════ -->
+  <section class="slide" id="s-reflection">
+    <div class="slide-label">04 コラム — 東の失敗から話す</div>
+    <h2>私も<span class="c-rust">ずっと負けてきた</span></h2>
+    <div class="two-col" style="max-width:960px;">
+      <div>
+        <blockquote style="font-size:clamp(.9rem,1.4vw,1.1rem); margin-bottom:0;">
+          ピッチコンテスト・クラウドファンディング・地域ビジネス・サービス開発…<br>
+          全て、起業という目標に対しては<strong class="c-rust">失敗</strong>だった。<br>
+          入社後も毎年事業計画書を書いて、まだ勝ちきれていない。<br><br>
+          起業とは、全責任を負い、自分のエゴで最大限利他的に、<br>
+          需要のあるサービスを提供してその対価を受け取ること。<br>
+          これを突きつけられ続けて、アイデアとプロダクトを捨て続けてきた。<br><br>
+          <strong style="color:var(--text);">起業というのは、この「負け」を背負い続ける何かに、ベットしていかなければいけない。</strong>
+        </blockquote>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:14px;">
+        <div class="hbox" style="margin:0;">
+          <p style="font-size:.86rem; color:var(--text-muted);">
+            <span class="c-khaki" style="font-weight:700; display:block; margin-bottom:6px;">
+              サブの問いかけ ①
+            </span>
+            ドメイン知識や専門スキルをどうつけようとしていますか？<br>
+            私でさえ戦えていない領域で、<strong style="color:var(--text);">どう戦っていくイメージが湧きますか？</strong>
+          </p>
+        </div>
+        <div class="hbox o" style="margin:0;">
+          <p style="font-size:.86rem; color:var(--text-muted);">
+            <span class="c-gold" style="font-weight:700; display:block; margin-bottom:6px;">
+              サブの問いかけ ②
+            </span>
+            今のインターン活動で積んでいる現場経験は、ドメイン知識として確かに蓄積されている。<br>
+            <strong style="color:var(--text);">それを何と掛け合わせますか？</strong>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="slide-num">— 6 —</div>
+  </section>
+
+  <!-- ══════════════ 7. FORMULA ══════════════ -->
+  <section class="slide" id="s-formula">
+    <div class="slide-label">04 コラム — 市場価値の方程式</div>
+    <h2>市場価値は<span class="c-gold">掛け算</span>で決まる</h2>
+    <div class="formula-wrap">
+      <div class="formula-box o">市場価値<span class="formula-small">Market Value</span></div>
+      <span class="formula-op">=</span>
+      <div class="formula-box k">専門スキル<span class="formula-small">Specialized Skills</span></div>
+      <span class="formula-op">×</span>
+      <div class="formula-box g">ドメイン知識<span class="formula-small">Domain Knowledge</span></div>
+    </div>
+    <div class="two-col" style="max-width:900px;">
+      <div class="hbox" style="margin:0;">
+        <p style="font-size:.88rem; color:var(--text-muted);">
+          <span class="c-khaki" style="font-weight:700;">スキルのみ（ドメイン知識ゼロ）</span><br>
+          高度な技術があっても現場の文脈がなければ「机上の空論」。<br>
+          実運用とは程遠いプロダクトしか生まれない。
+        </p>
+      </div>
+      <div class="hbox g" style="margin:0;">
+        <p style="font-size:.88rem; color:var(--text-muted);">
+          <span class="c-green" style="font-weight:700;">ドメインのみ（専門スキルゼロ）</span><br>
+          現場感覚があっても突破力が不足。<br>
+          「誰でも思いつく・誰でもできる」ことに収束してしまう。
+        </p>
+      </div>
+    </div>
+    <blockquote class="o" style="margin-top:20px; font-size:.9rem; max-width:860px;">
+      「仕組み化」という抽象概念だけで戦うのは<strong style="color:var(--accent3);">非常に危険</strong>。<br>
+      今のインターン活動（多領域の現場経験）はドメイン知識の貴重な積み上げ。<br>
+      そこに専門スキルを掛け算できるかどうかが、あなたの未来を分ける。
+    </blockquote>
+    <div class="slide-num">— 7 —</div>
+  </section>
+
+  <!-- ══════════════ 8. AI ERA ══════════════ -->
+  <section class="slide" id="s-ai-era">
+    <div class="slide-label">05 AI時代の戦い方</div>
+    <h2>蒸気機関の時代に<br><span class="c-khaki">馬を速く走らせても</span>意味がない</h2>
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title icon-sm"><i data-lucide="trending-up"></i> 産業変革の本質</div>
+        <ul class="blist">
+          <li>AI時代には必ず産業構造が変わる</li>
+          <li>「いまのやり方を最大効率化する」だけでは新しい市場で勝てない</li>
+          <li class="o">どう変化するか・どのタイミングでベットするかを常に考え続けること</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title icon-sm"><i data-lucide="route"></i> 東が考える「最短解」</div>
+        <ul class="blist">
+          <li class="g">組織に属して、その中で新規事業を提案する</li>
+          <li>他人の会社・資産であっても全力で貢献し価値を示す</li>
+          <li>自分の事業を会社の事業として成長させる動きをする</li>
+          <li class="g" style="color:var(--text);">AIで負けた際の再挑戦もしやすい ＋ 意思決定の柔軟性を保てる</li>
+        </ul>
+      </div>
+    </div>
+    <div class="hbox g" style="margin-top:22px;">
+      <p style="font-size:.9rem; color:var(--text-muted);">
+        <span class="c-green" style="font-weight:700; display:inline-flex; align-items:center; gap:6px;">
+          <span class="icon-sm"><i data-lucide="refresh-cw"></i></span> 実践中の戦略：
+        </span>
+        半年ごとに評価・更新。周囲との対話で方針をアップデートし続ける。<br>
+        大事なのは「辞める・続ける」ではなく、<strong style="color:var(--text);">最善の判断を最速で更新し続けること</strong>。
+      </p>
+    </div>
+    <div class="slide-num">— 8 —</div>
+  </section>
+
+  <!-- ══════════════ 9. MANAGEMENT ══════════════ -->
+  <section class="slide" id="s-mgmt">
+    <div class="slide-label">05 AI時代の戦い方 — マネジメント再定義</div>
+    <h2><span class="c-rust">「自分が働かなくても稼げる」</span><br>≠ マネジメント</h2>
+    <div class="steps" style="gap:16px;">
+      <div class="step-row" style="border-color:rgba(184,96,74,.3);">
+        <div class="step-badge r"><span class="num">×</span>誤解</div>
+        <div class="step-body">
+          <h3 class="c-rust">「不労所得 = マネジメント」という誤解</h3>
+          <p>仕組みを作っただけでは「仕組みオーナー」でしかない。<br>
+          本当のマネジメントはもっと能動的な行為である。</p>
+        </div>
+      </div>
+      <div class="step-row" style="border-color:rgba(107,124,82,.3);">
+        <div class="step-badge k"><span class="num">◎</span>正解</div>
+        <div class="step-body">
+          <h3 class="c-khaki">マネジメントの正体</h3>
+          <p>自分のプレイヤーとしての強みを組織に昇華し、<br>
+          <strong>自分ができることの幅を広げて組織の再現性を強化する</strong>こと。<br>
+          マネジメント層は、より責任の重いこと・誰も再現できないことをし続ける必要がある。</p>
+        </div>
+      </div>
+      <div class="step-row" style="border-color:rgba(77,107,63,.3);">
+        <div class="step-badge g"><span class="num">？</span>問い</div>
+        <div class="step-body">
+          <h3 class="c-green">高度な管理すら委任できる状態は、最上級ではなく一つの選択肢</h3>
+          <p>自分の高度なマネジメント手法すら、誰かに役割を担ってもらい回る状態にはなれる。<br>
+          しかし、<strong>市場が変化し続ける中で「何もしなくても求められる」「競合が追いつかない」状態は永続しない。</strong><br>
+          <span style="color:var(--text-muted);">そこに対して自分が変化の起因になること、組織運営のゴールに向けてアクション・挑戦をし続けること。<br>
+          それこそが重要なのでは？ — という問いを持ち続けてほしい。</span></p>
+        </div>
+      </div>
+    </div>
+    <div class="slide-num">— 9 —</div>
+  </section>
+
+  <!-- ══════════════ 10. 3 ADVICES ══════════════ -->
+  <section class="slide" id="s-advice">
+    <div class="slide-label">過去の自分へのアドバイス — あなたへも</div>
+    <h2>東が過去の自分に贈る<br><span class="c-taupe">3つのメッセージ</span></h2>
+    <div class="advice-list">
+      <div class="advice-item">
+        <div class="advice-num">1</div>
+        <div>
+          <h3 class="c-khaki">常に3歩以上先の仮説を持ち続けること</h3>
+          <p style="font-size:.9rem; color:var(--text-muted); margin-top:6px;">
+            仮説思考・ロジカルシンキングを極める。<br>
+            動く前に「その先に何が起きるか」を常に3手先まで読んでいる状態を維持する。
+          </p>
+        </div>
+      </div>
+      <div class="advice-item g">
+        <div class="advice-num">2</div>
+        <div>
+          <h3 class="c-green">転んでも継続できる最大限のリスクを取り続ける</h3>
+          <p style="font-size:.9rem; color:var(--text-muted); margin-top:6px;">
+            チームで言う「<strong style="color:var(--text);">リカバリー</strong>」の文化。<br>
+            確実に転んでも目標だけは達成する。最大限成長してリスクに対応することを重視。<br>
+            リスクを避けるのではなく、リスクを取りながら立て直す力を鍛える。
+          </p>
+        </div>
+      </div>
+      <div class="advice-item o">
+        <div class="advice-num">3</div>
+        <div>
+          <h3 class="c-gold">選択肢を選ばない（全てを喜んで受け入れる）</h3>
+          <p style="font-size:.9rem; color:var(--text-muted); margin-top:6px;">
+            やりづらい人間関係・苦手なスキル・未経験のこと・無茶な要求・<br>
+            釣り合わない報酬・理不尽なトラブル・自分起因でない問題…<br>
+            <strong style="color:var(--text);">これら全てを喜んで受け入れること</strong>が、最速の成長エンジンになる。
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="slide-num">— 10 —</div>
+  </section>
+
+  <!-- ══════════════ 11. THE DEAL ══════════════ -->
+  <section class="slide" id="s-deal">
+    <div class="slide-label">06 ミッション発表</div>
+    <h2>取引の<span class="c-green">提案</span></h2>
+    <div class="deal-grid">
+      <div class="deal-card mentor">
+        <h3 class="c-khaki">
+          <span class="icon-md"><i data-lucide="gift"></i></span> 東が提供するもの
+        </h3>
+        <ul>
+          <li>新規受講は基本行わないが、<strong>今回は特別に対応</strong></li>
+          <li>AI活用・エンジニアリングだけでなく、<strong>仕事の仕方・高パフォーマンスを出すための東のロジックを全部教える</strong></li>
+          <li>プロジェクトメンバーとして並走しながら育てる</li>
+        </ul>
+      </div>
+      <div class="deal-card intern">
+        <h3 class="c-green">
+          <span class="icon-md"><i data-lucide="terminal-square"></i></span> 提案内容
+        </h3>
+        <ul>
+          <li>テーマ設定は東に一任</li>
+          <li><strong>東の教育手法を仕組み化・システム化・AI化する</strong></li>
+          <li>「東を勝たせる仕組み」をともに構築する</li>
+          <li>AI教育のあり方を変えるプロダクトの第一弾</li>
+        </ul>
+      </div>
+      <div class="deal-timeline-bar">
+        <span class="label">進め方</span>
+        <div style="font-size:.88rem; color:var(--text-muted); line-height:1.7;">
+          まず<strong style="color:var(--text);">1〜2週間でプロジェクトのゴールを設定</strong>。<br>
+          その後はプロジェクトメンバーとして、<strong style="color:var(--text);">常に少し先のレベルを求め続ける</strong>形で教育を行う。<br>
+          ついてこれるなら、それがスタートラインになる。
+        </div>
+      </div>
+    </div>
+    <div class="hbox" style="margin-top:14px;">
+      <p style="font-size:.9rem; color:var(--text-muted);">
+        <span class="c-khaki" style="font-weight:700;">なぜこのミッションか：</span>
+        AI活用における変化の土壌への対応は、やり方さえ正しければ<strong style="color:var(--text);">再現性があり価値を生む</strong>ものだと確信している。<br>
+        そのロジックを実証・発展させるプロジェクトとして位置づけている。
+      </p>
+    </div>
+    <div class="slide-num">— 11 —</div>
+  </section>
+
+  <!-- ══════════════ 12. CLOSING ══════════════ -->
+  <section class="slide" id="s-close">
+    <div class="slide-label">クロージング</div>
+    <h2>今日から<span class="c-green">始まること</span></h2>
+    <div class="close-grid">
+      <div class="close-box">
+        <div class="close-icon icon-xl"><i data-lucide="workflow"></i></div>
+        <h3 style="margin-bottom:8px; font-size:1rem;">フローチャートを描く</h3>
+        <p style="font-size:.82rem; color:var(--text-muted);">
+          今担当している業務の現状フローを可視化する。<br>
+          属人化ポイントを3つ特定する。
+        </p>
+      </div>
+      <div class="close-box">
+        <div class="close-icon icon-xl"><i data-lucide="code-2"></i></div>
+        <h3 style="margin-bottom:8px; font-size:1rem;">GASで一つ動かす</h3>
+        <p style="font-size:.82rem; color:var(--text-muted);">
+          一番小さい自動化から始める。<br>
+          完璧を求めず、まず「動く」を体験する。
+        </p>
+      </div>
+      <div class="close-box">
+        <div class="close-icon icon-xl"><i data-lucide="handshake"></i></div>
+        <h3 style="margin-bottom:8px; font-size:1rem;">取引に合意する</h3>
+        <p style="font-size:.82rem; color:var(--text-muted);">
+          ミッション内容を確認・合意。<br>
+          週次でのレポートラインを決める。
+        </p>
+      </div>
+    </div>
+    <div class="slide-num">— 12 —</div>
+  </section>
+
+</div><!-- /deck -->
+
+<div class="progress-bar" id="progress"></div>
+
+<div id="nav">
+  <button class="nav-btn" id="btn-prev">
+    <span class="icon-sm"><i data-lucide="chevron-left"></i></span> Prev
+  </button>
+  <span id="nav-counter">1 / 13</span>
+  <button class="nav-btn" id="btn-next">
+    Next <span class="icon-sm"><i data-lucide="chevron-right"></i></span>
+  </button>
+  <button class="nav-btn" id="btn-fs">
+    <span class="icon-sm"><i data-lucide="maximize-2"></i></span>
+  </button>
+</div>
+
+<div id="help">← → キーで移動 &nbsp;|&nbsp; F で全画面</div>
+
+<script>
+  lucide.createIcons();
+
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const total   = slides.length;
+  let cur = 0;
+
+  function go(idx) {
+    slides[cur].classList.remove('active');
+    cur = Math.max(0, Math.min(idx, total - 1));
+    slides[cur].classList.add('active');
+    document.getElementById('nav-counter').textContent = `${cur + 1} / ${total}`;
+    document.getElementById('progress').style.width = `${((cur + 1) / total) * 100}%`;
+  }
+
+  go(0);
+
+  document.getElementById('btn-prev').addEventListener('click', () => go(cur - 1));
+  document.getElementById('btn-next').addEventListener('click', () => go(cur + 1));
+  document.getElementById('btn-fs').addEventListener('click', toggleFS);
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); go(cur + 1); }
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')                     { e.preventDefault(); go(cur - 1); }
+    if (e.key === 'f' || e.key === 'F') toggleFS();
+    if (e.key === 'Home') go(0);
+    if (e.key === 'End')  go(total - 1);
+  });
+
+  function toggleFS() {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(() => {});
+    } else {
+      document.exitFullscreen();
+    }
+  }
+
+  let tx = 0;
+  document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend',   e => {
+    const dx = e.changedTouches[0].clientX - tx;
+    if (Math.abs(dx) > 50) go(dx < 0 ? cur + 1 : cur - 1);
+  }, { passive: true });
+</script>
+</body>
+</html>
